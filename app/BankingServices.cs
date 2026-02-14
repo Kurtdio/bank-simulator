@@ -2,7 +2,7 @@ namespace ATMApp.Services
 {
     public static class BankingServices
     {
-        // Option 1: Pass-by-value
+        // Option 1: Pass-by-value (read only)
         public static double GetBalance(double balance)
         {
             return balance;
@@ -11,7 +11,13 @@ namespace ATMApp.Services
         // Option 2: ref (Deposit)
         public static bool Deposit(ref double balance, double amount)
         {
-            return false; //placeholder return value, replace with actual implementation
+            if (amount <= 0)
+            {
+                return false;
+            }
+
+            balance += amount;
+            return true;
         }
 
         // Option 3: ref + out (Withdraw)
@@ -20,7 +26,20 @@ namespace ATMApp.Services
             double amount,
             out bool isSuccessful)
         {
-            isSuccessful = false; //placeholder value, replace with actual implementation
+            isSuccessful = false;
+
+            if (amount <= 0)
+            {
+                return;
+            }
+
+            if (amount > balance)
+            {
+                return;
+            }
+
+            balance -= amount;
+            isSuccessful = true;
         }
     }
 }
